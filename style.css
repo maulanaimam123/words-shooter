@@ -11,17 +11,19 @@ body {
 #game-container {
   position: relative;
   width: 600px;
-  height: 600px;
+  height: 650px;
   border: 1px solid #000;
   overflow: hidden;
 }
 
 #word-container {
+  position: relative;
   top: 0;
   left: 0;
   background-color: blue;
   width: 100%;
   height: 400px;
+  overflow: hidden;
 }
 
 #input-bar {
@@ -31,6 +33,33 @@ body {
 }
 
 #health-display,
-#score-display {
-  margin-top: 10px;
+#score-display,
+#instruction {
+  padding: 10px;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.word {
+  padding: 5px;
+  background-color: mediumseagreen;
+  border-radius: 3px;
+  position: absolute;
+}
+
+.word1 {
+  top: 0px;
+  left: 100px;
+}
+
+.word2 {
+  top: 0px;
+  left: 160px;
+}
+
+.word3 {
+  top: 0px;
+  left: 500px;
 }
