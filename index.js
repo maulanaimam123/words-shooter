@@ -3,10 +3,9 @@ function startGame() {
   let speeds = [Math.random(), Math.random(), Math.random()];
   let start, previousTimeStamp;
   let speedFactor = 0.001;
-  let health = 3;
-  let outOfBound = new Set();
-
-  console.log("initialize new game");
+  let health = Number($(".health-score").text());
+  let healthScore = $(".health-score");
+  let removedIndex = null;
 
   function step(timeStamp) {
     if (start === undefined) {
@@ -21,9 +20,10 @@ function startGame() {
         var displacement = speedFactor * elapsed * speeds[i];
 
         // update health info here
-        if (offsetTop + displacement > 400 && !outOfBound.has(i)) {
+        if (offsetTop + displacement > 400) {
+          removedIndex = i;
           health -= 1;
-          outOfBound.add(i);
+          $(healthScore).html(health);
         }
 
         // draw new position
@@ -32,11 +32,17 @@ function startGame() {
         });
       }
     }
+
+    if (removedIndex != null) {
+      words.splice(removedIndex, 1);
+      speeds.splice(removedIndex, 1);
+      removedIndex = null;
+    }
+
     previousTimeStamp = timeStamp;
     if (health > 0) {
       window.requestAnimationFrame(step);
     } else {
-      console.log("you lose!");
       return;
     }
   }
@@ -47,7 +53,9 @@ function startGame() {
 $(".start-btn").click(startGame);
 
 $(".restart-btn").click(function () {
+  let healthScore = $(".health-score");
   $(".word").css({
     top: 0,
   });
+  $(healthScore).html(3);
 });
