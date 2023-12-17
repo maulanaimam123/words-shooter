@@ -49,17 +49,10 @@ body {
   position: absolute;
 }
 
-.word1 {
-  top: 0px;
-  left: 100px;
-}
-
-.word2 {
-  top: 0px;
-  left: 160px;
-}
-
-.word3 {
-  top: 0px;
-  left: 500px;
+.missile {
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  background-color: red;
+  position: absolute;
 }

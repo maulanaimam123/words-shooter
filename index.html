@@ -10,20 +10,22 @@
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
-    <script src="./index.js" defer></script>
+    <script type="module" src="./index.js" defer></script>
   </head>
   <body>
     <div id="game-container">
-      <div id="word-container">
-        <span class="word word1">hello</span>
-        <span class="word word2">there</span>
-        <span class="word word3">world</span>
-      </div>
+      <div id="word-container"></div>
       <input type="text" id="input-bar" placeholder="Type here..." />
       <button class="start-btn">Click to start</button>
       <button class="restart-btn">Restart</button>
-      <div id="health-display">Health: <span class="health-score">3</span></div>
-      <div id="score-display">Score: 0</div>
+      <button class="pause-btn">Pause</button>
+      <button class="resume-btn">Resume</button>
+      <div id="health-display">
+        Health: <span class="health-indicator">5</span>
+      </div>
+      <div id="score-display">
+        Score: <span class="score-indicator">0</span>
+      </div>
       <div id="instruction">
         We are in the Book Realm where army of words is invading us. Each coming
         word will try to attack you and you can destroy them by typing the word
