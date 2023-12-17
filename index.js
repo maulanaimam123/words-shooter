@@ -79,6 +79,10 @@ function updateGameState(previousTimeStamp, timeStamp) {
   for (let i = 0; i < missiles.length; i++) {
     // update position
     const { word, wordId, x, y, distanceToTarget, speed } = missiles[i];
+
+    // edge case: skip if target word already miss (out of bound)
+    if (words[word][wordId] == undefined) continue;
+
     let newX =
       x -
       (elapsedTime * speed * (x - words[word][wordId].x)) / distanceToTarget;
