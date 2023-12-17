@@ -5,7 +5,7 @@ var health = 5;
 var score = 0;
 var shouldGenerateAt; // initialized when game starts
 const MISSILESPEED = 0.07;
-const WORDSPEED = 0.1;
+const WORDSPEED = 0.05;
 const MAX_Y = 380;
 var isGameRunning = false;
 var health = Number($(".health-indicator").text());
@@ -31,24 +31,41 @@ var inputBar = $("#input-bar");
 var start, previousTimeStamp;
 
 function generateRandomWords(timeStamp) {
+  // utility function to handle new word
+  function makeWord(randomWord) {
+    let randomId = generateUUID();
+
+    // update words
+    if (words[randomWord] == undefined) {
+      words[randomWord] = {};
+    }
+    words[randomWord][randomId] = {
+      x: Math.random() * 540, // game area boundary
+      y: 0,
+      speed: Math.random(),
+      followedByMissile: false,
+    };
+  }
+
   // check if its on time to generate a word
   if (timeStamp < shouldGenerateAt) return;
 
-  // generate random word
-  let randomWordIndex = Math.floor(Math.random() * englishWords.length);
-  let randomWord = englishWords[randomWordIndex];
-  let randomId = generateUUID();
-
-  // update words
-  if (words[randomWord] == undefined) {
-    words[randomWord] = {};
-  }
-  words[randomWord][randomId] = {
-    x: Math.random() * 540, // game area boundary
-    y: 0,
-    speed: Math.random(),
-    followedByMissile: false,
-  };
+  // generate random words via API
+  let randomLength = Math.floor(Math.random() * 4) + 4;
+  $.ajax({
+    url: `https://random-word-api.herokuapp.com/word?length=${randomLength}`,
+    method: "GET",
+    success: function (data) {
+      // Handle the response data
+      makeWord(data[0]);
+    },
+    error: function (error) {
+      // Handle errors
+      let randomWordIndex = Math.floor(Math.random() * englishWords.length);
+      let randomWord = englishWords[randomWordIndex];
+      makeWord(randomWord);
+    },
+  });
 
   // get new time to generate
   shouldGenerateAt = timeStamp + getRandomInterval();
@@ -303,3 +320,20 @@ $(".restart-btn").click(restartGame);
 $(".pause-btn").click(pauseGame);
 
 $(".resume-btn").click(resumeGame);
+
+$(".random-word-btn").click(function () {
+  let randomLength = Math.floor(Math.random() * 4) + 4;
+  // Make a GET request to random word generator API
+  $.ajax({
+    url: `https://random-word-api.herokuapp.com/word?length=${randomLength}`,
+    method: "GET",
+    success: function (data) {
+      // Handle the response data
+      console.log("API Response:", data);
+    },
+    error: function (error) {
+      // Handle errors
+      console.error("API Error:", error);
+    },
+  });
+});
