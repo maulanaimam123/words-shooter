@@ -5,7 +5,7 @@ var health = 5;
 var score = 0;
 var shouldGenerateAt; // initialized when game starts
 const MISSILESPEED = 0.07;
-const WORDSPEED = 0.03;
+const WORDSPEED = 0.1;
 const MAX_Y = 380;
 var isGameRunning = false;
 var health = Number($(".health-indicator").text());
@@ -139,32 +139,35 @@ function handleInput(event) {
     }
 
     // if exists, find a word target and follow it
-    // iterate over list of item in that word (take account into duplicate)
+    // iterate over list of item in that word to find the nearest one (take account into duplicate)
+    let nearestWordObj = null;
+    let newMissile = null;
     for (const [wordId, wordObj] of Object.entries(words[inputWord])) {
       // skip if a missile already following that word item
       if (wordObj.followedByMissile) continue;
 
-      // if found new target, then create new missile
-      let newMissile = {
-        word: inputWord,
-        wordId: wordId,
-        speed: MISSILESPEED,
-        x: 600 / 2, // middle
-        y: 400, // bottom
-      };
-      newMissile.distanceToTarget = calculateDistance(
-        newMissile.x,
-        newMissile.y,
-        words[inputWord][wordId].x,
-        words[inputWord][wordId].y
-      );
-      missiles.push(newMissile);
-
+      // update nearest word, nearest = max y (nearest to bottom boundary)
+      if (nearestWordObj == null || nearestWordObj.y < wordObj.y) {
+        nearestWordObj = wordObj;
+        newMissile = {
+          word: inputWord,
+          wordId: wordId,
+          speed: MISSILESPEED,
+          x: 600 / 2, // middle
+          y: 400, // bottom
+        };
+        newMissile.distanceToTarget = calculateDistance(
+          newMissile.x,
+          newMissile.y,
+          wordObj.x,
+          wordObj.y
+        );
+      }
+    }
+    if (newMissile != null) {
       // track the word being followed
-      words[inputWord][wordId].followedByMissile = true;
-
-      // break the search if already found a new target
-      break;
+      words[inputWord][newMissile.wordId].followedByMissile = true;
+      missiles.push(newMissile);
     }
 
     // clear input area
