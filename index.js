@@ -320,20 +320,3 @@ $(".restart-btn").click(restartGame);
 $(".pause-btn").click(pauseGame);
 
 $(".resume-btn").click(resumeGame);
-
-$(".random-word-btn").click(function () {
-  let randomLength = Math.floor(Math.random() * 4) + 4;
-  // Make a GET request to random word generator API
-  $.ajax({
-    url: `https://random-word-api.herokuapp.com/word?length=${randomLength}`,
-    method: "GET",
-    success: function (data) {
-      // Handle the response data
-      console.log("API Response:", data);
-    },
-    error: function (error) {
-      // Handle errors
-      console.error("API Error:", error);
-    },
-  });
-});
