@@ -337,7 +337,7 @@ $("#difficulty-form input").on("change", function () {
     "input[name=difficulty-selector]:checked",
     "#difficulty-form"
   ).val();
-  getPlayingConfig(difficultyLevel);
+  playingConfig = getPlayingConfig(difficultyLevel);
 });
 
 // Function to set game config based on difficulty level

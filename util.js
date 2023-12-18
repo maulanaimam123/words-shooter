@@ -22,8 +22,8 @@ export function getRandomWordLength(playingConfig) {
   let randomLength =
     Math.floor(
       Math.random() *
-        (playingConfig.maxWordLength - playingConfig.minWordlength)
-    ) + playingConfig.minWordlength;
+        (playingConfig.maxWordLength - playingConfig.minWordLength)
+    ) + playingConfig.minWordLength;
   return randomLength;
 }
 
