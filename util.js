@@ -18,11 +18,19 @@ function _getRandomWeightedElement(elements, weights) {
   return null;
 }
 
-export function getRandomInterval() {
+export function getRandomWordLength(playingConfig) {
+  let randomLength =
+    Math.floor(
+      Math.random() *
+        (playingConfig.maxWordLength - playingConfig.minWordlength)
+    ) + playingConfig.minWordlength;
+  return randomLength;
+}
+
+export function getRandomInterval(playingConfig) {
   // get random speed
-  const typeSpeeds = [30, 40, 50, 60, 70, 80];
-  const typeSpeedsWeight = [3, 4, 6, 5, 2, 1]; // distribution of speed
-  // const typeSpeedsWeight = [100, 4, 6, 5, 2, 1]; // easy level for debugging
+  const typeSpeeds = playingConfig.typeSpeeds;
+  const typeSpeedsWeight = playingConfig.typeSpeedsWeight;
   let randomSpeed = _getRandomWeightedElement(typeSpeeds, typeSpeedsWeight);
 
   // convert wpm to ms interval

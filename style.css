@@ -8,10 +8,41 @@ body {
   background-color: #f0f0f0;
 }
 
+#instruction {
+  position: absolute;
+  height: 200px;
+  width: 300px;
+  top: 75px;
+  left: 125px;
+  background-color: beige;
+}
+
+.start-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+button {
+  color: white;
+  background-color: blue;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+}
+
+button:hover {
+  background-color: blueviolet;
+  color: yellow;
+}
+
 #game-container {
   position: relative;
   width: 600px;
-  height: 650px;
+  height: 700px;
   border: 1px solid #000;
   overflow: hidden;
 }

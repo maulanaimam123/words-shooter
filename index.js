@@ -1,14 +1,21 @@
 import englishWords from "./randomWord.js";
-import { generateUUID, getRandomInterval, calculateDistance } from "./util.js";
+import {
+  generateUUID,
+  getRandomInterval,
+  calculateDistance,
+  getRandomWordLength,
+} from "./util.js";
+import gameConfig from "./config.js";
 
 var health = 5;
 var score = 0;
 var shouldGenerateAt; // initialized when game starts
 const MISSILESPEED = 0.07;
-const WORDSPEED = 0.05;
 const MAX_Y = 380;
 var isGameRunning = false;
 var health = Number($(".health-indicator").text());
+var difficultyLevel = "easy";
+var playingConfig = getPlayingConfig(difficultyLevel);
 
 var words = {
   // words is a map of word Object
@@ -30,7 +37,7 @@ var inputBar = $("#input-bar");
 
 var start, previousTimeStamp;
 
-function generateRandomWords(timeStamp) {
+function generateRandomWords(timeStamp, playingConfig) {
   // utility function to handle new word
   function makeWord(randomWord) {
     let randomId = generateUUID();
@@ -51,7 +58,7 @@ function generateRandomWords(timeStamp) {
   if (timeStamp < shouldGenerateAt) return;
 
   // generate random words via API
-  let randomLength = Math.floor(Math.random() * 4) + 4;
+  let randomLength = getRandomWordLength(playingConfig);
   $.ajax({
     url: `https://random-word-api.herokuapp.com/word?length=${randomLength}`,
     method: "GET",
@@ -68,10 +75,10 @@ function generateRandomWords(timeStamp) {
   });
 
   // get new time to generate
-  shouldGenerateAt = timeStamp + getRandomInterval();
+  shouldGenerateAt = timeStamp + getRandomInterval(playingConfig);
 }
 
-function updateGameState(previousTimeStamp, timeStamp) {
+function updateGameState(previousTimeStamp, timeStamp, playingConfig) {
   let elapsedTime = timeStamp - previousTimeStamp;
 
   // update every word
@@ -82,7 +89,7 @@ function updateGameState(previousTimeStamp, timeStamp) {
       const { x, y, speed, followedByMissile } = wordObj;
       newWordObjList[wordId] = {
         x: x,
-        y: y + elapsedTime * speed * WORDSPEED, // update y only (dropping motion)
+        y: y + elapsedTime * speed * playingConfig.wordSpeedMultiplier, // update y only (dropping motion)
         speed: speed,
         followedByMissile: followedByMissile,
       };
@@ -246,10 +253,10 @@ function step(timeStamp) {
 
   if (previousTimeStamp !== timeStamp) {
     // generate random words
-    generateRandomWords(timeStamp);
+    generateRandomWords(timeStamp, playingConfig);
 
     // update state of the game
-    updateGameState(previousTimeStamp, timeStamp);
+    updateGameState(previousTimeStamp, timeStamp, playingConfig);
 
     // render
     render();
@@ -269,6 +276,9 @@ function step(timeStamp) {
 // Function to start the game
 function startGame() {
   isGameRunning = true;
+
+  // remove instruction panel from the screen
+  $("#instruction").css({ display: "none" });
 
   // tie event handler to user input
   $(inputBar).keydown(handleInput);
@@ -320,3 +330,17 @@ $(".restart-btn").click(restartGame);
 $(".pause-btn").click(pauseGame);
 
 $(".resume-btn").click(resumeGame);
+
+// Function to select game difficulty level
+$("#difficulty-form input").on("change", function () {
+  difficultyLevel = $(
+    "input[name=difficulty-selector]:checked",
+    "#difficulty-form"
+  ).val();
+  getPlayingConfig(difficultyLevel);
+});
+
+// Function to set game config based on difficulty level
+function getPlayingConfig(difficultyLevel) {
+  return gameConfig[difficultyLevel];
+}

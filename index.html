@@ -16,7 +16,6 @@
     <div id="game-container">
       <div id="word-container"></div>
       <input type="text" id="input-bar" placeholder="Type here..." />
-      <button class="start-btn">Click to start</button>
       <button class="restart-btn">Restart</button>
       <button class="pause-btn">Pause</button>
       <button class="resume-btn">Resume</button>
@@ -26,6 +25,39 @@
       <div id="score-display">
         Score: <span class="score-indicator">0</span>
       </div>
+      <form id="difficulty-form">
+        <fieldset>
+          <legend>Choose a difficulty level:</legend>
+          <div>
+            <input
+              type="radio"
+              id="easy"
+              name="difficulty-selector"
+              value="easy"
+              checked
+            />
+            <label for="easy">Easy</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="medium"
+              name="difficulty-selector"
+              value="medium"
+            />
+            <label for="medium">Medium</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              id="hard"
+              name="difficulty-selector"
+              value="hard"
+            />
+            <label for="hard">Hard</label>
+          </div>
+        </fieldset>
+      </form>
       <div id="instruction">
         We are in the Book Realm where army of words is invading us. Each coming
         word will try to attack you and you can destroy them by typing the word
@@ -33,6 +65,9 @@
         <span class="bold">ENTER</span> before it's too late... Else it will
         reduce your <span class="bold">Health</span> point and when it reaches
         0, it's <span class="bold">game over!</span>
+        <div class="start-btn-wrapper">
+          <button class="start-btn">Click to start</button>
+        </div>
       </div>
     </div>
   </body>
