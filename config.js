@@ -9,16 +9,16 @@ const gameConfig = {
   medium: {
     wordSpeedMultiplier: 0.035,
     typeSpeeds: [10, 20, 30, 40, 50, 60, 70, 80],
-    typeSpeedsWeight: [1, 2, 6, 4, 3, 2, 1, 0], // average 38.4
-    minWordlength: 4,
-    maxWordLength: 6,
+    typeSpeedsWeight: [0, 1, 3, 6, 5, 2, 1, 0], // average 43.9
+    minWordlength: 5,
+    maxWordLength: 7,
   },
   hard: {
     wordSpeedMultiplier: 0.05,
     typeSpeeds: [10, 20, 30, 40, 50, 60, 70, 80],
-    typeSpeedsWeight: [0, 0, 3, 4, 5, 6, 2, 1], // average 51.4
-    minWordlength: 4,
-    maxWordLength: 8,
+    typeSpeedsWeight: [0, 0, 1, 2, 3, 6, 6, 5], // average 62.6
+    minWordlength: 5,
+    maxWordLength: 9,
   },
 };
 
