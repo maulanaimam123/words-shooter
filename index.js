@@ -295,8 +295,8 @@ function restartGame() {
   missiles = [];
   start = undefined;
   previousTimeStamp = undefined;
-  isGameRunning = false;
-  render();
+  isGameRunning = true;
+  startGame();
 }
 
 // Function to pause the game
